@@ -23,6 +23,25 @@ func (*server) Sum(ctx context.Context, req *sumpb.SumRequest) (*sumpb.SumRespon
 	return res, nil
 }
 
+func (*server) PrimeNumberDecomposition(req *sumpb.PrimeNumberDecompositionRequest, stream sumpb.SumService_PrimeNumberDecompositionServer) error {
+	fmt.Printf("Received PrimeNumberDecomposition function was invoked with %v\n", req)
+	number := req.GetNumber()
+	divisor := int64(2)
+
+	for number > 1 {
+		if number%divisor == 0 {
+			stream.Send(&sumpb.PrimeNumberDecompositionResponse{
+				PrimeFactor: divisor,
+			})
+			number = number / divisor
+		} else {
+			divisor++
+			fmt.Printf("Divisor has increased to %v\n", divisor)
+		}
+	}
+	return nil
+}
+
 func main() {
 	fmt.Println("Hello world")
 
