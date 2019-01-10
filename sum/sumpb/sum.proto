@@ -18,6 +18,10 @@ message ComputeAverageRequest { int32 number = 1; }
 
 message ComputeAverageResponse { double average = 1; }
 
+message FindMaximumRequest { int32 number = 1; }
+
+message FindMaximumResponse { int32 maximum = 1; }
+
 service SumService {
   // Unary
   rpc Sum(SumRequest) returns (SumResponse) {};
@@ -27,4 +31,7 @@ service SumService {
   // Client Streaming
   rpc ComputeAverage(stream ComputeAverageRequest)
       returns (ComputeAverageResponse) {};
+  // BiDirection Streamging
+  rpc FindMaximum(stream FindMaximumRequest)
+      returns (stream FindMaximumResponse) {};
 };
