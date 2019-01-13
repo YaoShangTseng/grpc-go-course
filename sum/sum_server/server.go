@@ -12,6 +12,7 @@ import (
 
 	"github.com/YaoShangTseng/grpc-go-course/sum/sumpb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 )
 
@@ -115,8 +116,13 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
+
 	s := grpc.NewServer()
 	sumpb.RegisterSumServiceServer(s, &server{})
+
+	// Register refelection service on gRPC server.
+	reflection.Register(s)
+
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
